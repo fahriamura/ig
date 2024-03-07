@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ig</string>
+    <string name="searchbar_hint">Masukkan Kata</string>
+    <string name="this_activity">Activity\n</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="splashy_subtitle">10\n</string>
+    <string name="logo">20</string>
+    <string name="splashy">30</string>
+    <string name="background">40</string>
+    <string name="show_splashy">10</string>
+</resources>
