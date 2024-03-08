@@ -9,4 +9,7 @@
     <string name="splashy">30</string>
     <string name="background">40</string>
     <string name="show_splashy">10</string>
+    <string name="action_settings">Tittle\n</string>
+    <string name="navigation_drawer_open">10\n</string>
+    <string name="navigation_drawer_close">10</string>
 </resources>
