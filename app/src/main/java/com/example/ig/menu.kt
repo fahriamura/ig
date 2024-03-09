@@ -7,43 +7,51 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.ListFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.ig.R
+import com.example.ig.SplashyActivity.Companion.activity
 import java.util.*
+import kotlin.collections.ArrayList
 
-class menu : ListFragment(), SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
+class menu : Fragment(), SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
-    private var mAllValues: MutableList<String> = ArrayList()
-    private lateinit var mAdapter: ArrayAdapter<String>
+    private lateinit var mAdapter: ListDemonAdapter
     private lateinit var mContext: Context
+    val mAllValues = ArrayList<ListIg>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContext = requireActivity()
         setHasOptionsMenu(true)
-        populateList()
+        mAllValues.addAll(getListDemon())
+
     }
 
-    override fun onListItemClick(listView: ListView, v: View, position: Int, id: Long) {
-        val item = listView.adapter.getItem(position) as String
-        if (activity is OnItem1SelectedListener) {
-            (activity as OnItem1SelectedListener).onItem1SelectedListener(item)
-        }
-        parentFragmentManager.popBackStack()
-    }
 
     override fun onDetach() {
         super.onDetach()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         val layout = inflater.inflate(R.layout.fragment_menu, container, false)
-        val listView: ListView = layout.findViewById(android.R.id.list)
-        val emptyTextView: TextView = layout.findViewById(android.R.id.empty)
-        listView.emptyView = emptyTextView
+        val recyclerView: RecyclerView = layout.findViewById(R.id.recyclerView)
+
+        // Assuming mAllValues is your data source for the RecyclerView
+
+        mAdapter = ListDemonAdapter(mAllValues)
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = mAdapter
+
+
         return layout
     }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_menu, menu)
         val searchItem = menu.findItem(R.id.action_search)
@@ -63,19 +71,16 @@ class menu : ListFragment(), SearchView.OnQueryTextListener, MenuItem.OnActionEx
             return false
         }
 
-        val filteredValues = mAllValues.filter { value ->
-            value.toLowerCase(Locale.getDefault()).contains(newText.toLowerCase(Locale.getDefault()))
+        val filteredValues = getListDemon().filter { value ->
+            value.name.toLowerCase(Locale.getDefault()).contains(newText.toLowerCase(Locale.getDefault()))
         }.toMutableList()
 
-        mAdapter = ArrayAdapter(mContext, android.R.layout.simple_list_item_1, filteredValues)
-        listAdapter = mAdapter
-
+        mAdapter.filterList(filteredValues as ArrayList<ListIg>)
         return false
     }
 
     private fun resetSearch() {
-        mAdapter = ArrayAdapter(mContext, android.R.layout.simple_list_item_1, mAllValues)
-        listAdapter = mAdapter
+        mAdapter.filterList(getListDemon())
     }
 
     override fun onMenuItemActionExpand(item: MenuItem): Boolean {
@@ -90,14 +95,17 @@ class menu : ListFragment(), SearchView.OnQueryTextListener, MenuItem.OnActionEx
         fun onItem1SelectedListener(item: String)
     }
 
-    private fun populateList() {
-        mAllValues = mutableListOf(
-            "Afghanistan", "Åland Islands", "Albania", "Algeria", "American Samoa", "AndorrA", "Angola", "Anguilla",
-            // ... (your country list continues here)
-            "Yemen", "Zambia", "Zimbabwe"
-        )
+    private fun getListDemon(): ArrayList<ListIg> {
+        val dataName = resources.getStringArray(R.array.data_name)
+        val dataPhoto = resources.obtainTypedArray(R.array.data_photo)
+        val listDemon = ArrayList<ListIg>()
+        for (i in dataName.indices) {
+            val dicogram = ListIg(dataName[i],  dataPhoto.getResourceId(i, -1))
+            listDemon.add(dicogram)
+        }
 
-        mAdapter = ArrayAdapter(mContext, android.R.layout.simple_list_item_1, mAllValues)
-        listAdapter = mAdapter
+        return listDemon
     }
+
+
 }

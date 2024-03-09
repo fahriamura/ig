@@ -12,4 +12,29 @@
     <string name="action_settings">Tittle\n</string>
     <string name="navigation_drawer_open">10\n</string>
     <string name="navigation_drawer_close">10</string>
+    <string name="Name">10</string>
+    <integer-array name="data_photo">
+        <item>@drawable/avernus</item>
+        <item>@drawable/acheron</item>
+        <item>@drawable/cb</item>
+        <item>@drawable/abyss</item>
+        <item>@drawable/kyku</item>
+        <item>@drawable/maxresdefault</item>
+        <item>@drawable/platon</item>
+        <item>@drawable/cdpnc</item>
+        <item>@drawable/kcmc</item>
+        <item>@drawable/fw</item>
+    </integer-array>
+    <string-array name ="data_name">
+        <item>PockeWindFish</item>
+        <item>ryamu</item>
+        <item>TheReal Sailent</item>
+        <item>Exen</item>
+        <item>｛出見塩｝</item>
+        <item>icedcave</item>
+        <item>[AUF] Diamond</item>
+        <item>TCTeam</item>
+        <item>cherryteam</item>
+        <item>Trick</item>
+    </string-array>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.ig
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,10 +15,13 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var fragment: Fragment? = null
     private var fragmentManager: FragmentManager? = null
+    private val list = ArrayList<ListIg>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,6 +40,7 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
         toggle.syncState()
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+
         displayView(0) // call search fragment.
     }
 
@@ -93,5 +98,23 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
             fragmentManager?.beginTransaction()?.replace(R.id.content_frame, fragment!!, fragmentTags)
                 ?.commit()
         }
+
+        val listDemonAdapter = ListDemonAdapter(list)
+
+        listDemonAdapter.setOnItemClickCallback(object : ListDemonAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: ListIg, position: Int) {
+                val intentToDetail = Intent(this@mainapp, description::class.java)
+                val positionClicked: Int = intent.getIntExtra("position_clicked", -1)
+                intentToDetail.putExtra("key", data)
+                intentToDetail.putExtra("position_clicked", position)
+                startActivity(intentToDetail)
+            }
+        })
     }
+
+
+
+
+
+
 }
