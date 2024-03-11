@@ -4,9 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.FrameLayout
 import android.widget.ListView
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.ListFragment
@@ -14,11 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ig.R
 import com.example.ig.SplashyActivity.Companion.activity
+import com.example.ig.databinding.FragmentMenuBinding
+import com.google.android.material.search.SearchBar
 import java.util.*
 import kotlin.collections.ArrayList
 
-class menu : Fragment(), SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
-
+class menu : Fragment(), SearchView.OnQueryTextListener{
+    private lateinit var binding: FragmentMenuBinding
     private lateinit var mAdapter: ListDemonAdapter
     private lateinit var mContext: Context
     val mAllValues = ArrayList<ListIg>()
@@ -39,27 +43,32 @@ class menu : Fragment(), SearchView.OnQueryTextListener, MenuItem.OnActionExpand
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val layout = inflater.inflate(R.layout.fragment_menu, container, false)
-        val recyclerView: RecyclerView = layout.findViewById(R.id.recyclerView)
+        val parentContainer = FrameLayout(requireContext())
+        binding = FragmentMenuBinding.inflate(inflater, container, false)
+        parentContainer.addView(binding.root)
+        with(binding){
+            searchView.setupWithSearchBar(searchBar)
+            searchView
+                .editText
+                .setOnEditorActionListener { textView, actionId, event ->
+                    searchBar.setText(searchView.text)
+                    searchView.hide()
+                    Toast.makeText(requireContext(), searchView.text, Toast.LENGTH_SHORT).show()
+                    false
+                }
+            mAdapter = ListDemonAdapter(mAllValues)
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView.adapter = mAdapter
+
+        }
 
         // Assuming mAllValues is your data source for the RecyclerView
 
-        mAdapter = ListDemonAdapter(mAllValues)
-
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = mAdapter
 
 
-        return layout
+        return parentContainer
     }
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu, menu)
-        val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem.actionView as SearchView
-        searchView.setOnQueryTextListener(this)
-        searchView.queryHint = "Search"
-        super.onCreateOptionsMenu(menu, inflater)
-    }
+
 
     override fun onQueryTextSubmit(query: String): Boolean {
         return true
@@ -83,13 +92,6 @@ class menu : Fragment(), SearchView.OnQueryTextListener, MenuItem.OnActionExpand
         mAdapter.filterList(getListDemon())
     }
 
-    override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-        return true
-    }
-
-    override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-        return true
-    }
 
     interface OnItem1SelectedListener {
         fun onItem1SelectedListener(item: String)

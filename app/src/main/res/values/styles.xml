@@ -2,7 +2,7 @@
 <resources>
 
     <style name="SplashyTheme" parent="Theme.AppCompat.Light.NoActionBar">10</style>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
 
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
