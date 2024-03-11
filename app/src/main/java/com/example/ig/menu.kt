@@ -4,9 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
-import android.widget.FrameLayout
 import android.widget.ListView
-import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -14,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.ListFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.SearchView
 import com.example.ig.R
 import com.example.ig.SplashyActivity.Companion.activity
 import com.example.ig.databinding.FragmentMenuBinding
@@ -21,10 +20,11 @@ import com.google.android.material.search.SearchBar
 import java.util.*
 import kotlin.collections.ArrayList
 
-class menu : Fragment(), SearchView.OnQueryTextListener{
+class menu : Fragment(){
     private lateinit var binding: FragmentMenuBinding
     private lateinit var mAdapter: ListDemonAdapter
     private lateinit var mContext: Context
+    private lateinit var searchView: SearchView
     val mAllValues = ArrayList<ListIg>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,53 +43,45 @@ class menu : Fragment(), SearchView.OnQueryTextListener{
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val parentContainer = FrameLayout(requireContext())
-        binding = FragmentMenuBinding.inflate(inflater, container, false)
-        parentContainer.addView(binding.root)
-        with(binding){
-            searchView.setupWithSearchBar(searchBar)
-            searchView
-                .editText
-                .setOnEditorActionListener { textView, actionId, event ->
-                    searchBar.setText(searchView.text)
-                    searchView.hide()
-                    Toast.makeText(requireContext(), searchView.text, Toast.LENGTH_SHORT).show()
-                    false
+        val layout = inflater.inflate(R.layout.fragment_menu, container, false)
+        val recyclerView: RecyclerView = layout.findViewById(R.id.recyclerView)
+        searchView = layout.findViewById(R.id.searchView)
+
+
+        mAdapter = ListDemonAdapter(mAllValues)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = mAdapter
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText)
+                return true
+            }
+
+        })
+        return layout
+    }
+
+    private fun filterList(query: String?) {
+
+        if (query != null) {
+            val filteredList = ArrayList<ListIg>()
+            for (i in mAllValues) {
+                if (i.name.lowercase(Locale.ROOT).contains(query)) {
+                    filteredList.add(i)
                 }
-            mAdapter = ListDemonAdapter(mAllValues)
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            recyclerView.adapter = mAdapter
+            }
 
+            if (filteredList.isEmpty()) {
+                Toast.makeText(requireContext(), "No Data found", Toast.LENGTH_SHORT).show()
+            } else {
+                mAdapter.setFilteredList(filteredList)
+            }
         }
-
-        // Assuming mAllValues is your data source for the RecyclerView
-
-
-
-        return parentContainer
-    }
-
-
-    override fun onQueryTextSubmit(query: String): Boolean {
-        return true
-    }
-
-    override fun onQueryTextChange(newText: String): Boolean {
-        if (newText.isBlank()) {
-            resetSearch()
-            return false
-        }
-
-        val filteredValues = getListDemon().filter { value ->
-            value.name.toLowerCase(Locale.getDefault()).contains(newText.toLowerCase(Locale.getDefault()))
-        }.toMutableList()
-
-        mAdapter.filterList(filteredValues as ArrayList<ListIg>)
-        return false
-    }
-
-    private fun resetSearch() {
-        mAdapter.filterList(getListDemon())
     }
 
 

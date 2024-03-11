@@ -34,6 +34,7 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
         )
         drawer.setDrawerListener(toggle)
         toggle.syncState()
+        toolbar.navigationIcon = null
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
 

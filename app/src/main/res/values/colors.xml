@@ -13,4 +13,5 @@
     <color name="two">#222222</color>
     <color name="five">#555555</color>
     <color name="eight">#888888</color>
+    <color name="colorOnSurfaceVariant">#FFFFFF</color>
 </resources>
