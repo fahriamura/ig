@@ -2,7 +2,7 @@ package com.example.ig.Database
 
 import com.google.gson.annotations.SerializedName
 
-data class Response(
+data class UserResponse(
 
 	@field:SerializedName("total_count")
 	val totalCount: Int? = null,

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".description">
+
+    <ImageView
+        android:id="@+id/profilePicImageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_launcher_background"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profilePicImageView"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/followersTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/usernameTextView"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/followingTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/followersTextView"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/postCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/followingTextView"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/biographyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/postCountTextView"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/fullNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/biographyTextView"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

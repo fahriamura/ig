@@ -1,5 +1,6 @@
 package com.example.ig
 
+import ListDemonAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.GestureDetector
@@ -10,6 +11,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.snapshots.Snapshot.Companion.observe
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -22,13 +24,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ig.Database.ItemsItem
+import com.example.ig.ui.MenuViewModel
 
 class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var fragment: Fragment? = null
     private var fragmentManager: FragmentManager? = null
     private lateinit var gestureDetector: GestureDetectorCompat
-    private lateinit var viewModel: MainAppViewModel
-
+    private lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,15 +51,6 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
         navigationView.setNavigationItemSelectedListener(this)
 
         gestureDetector = GestureDetectorCompat(this, MyGestureListener())
-
-        // Initialize ViewModel
-        viewModel = ViewModelProvider(this).get(MainAppViewModel::class.java)
-
-        // Check if data is already stored in the ViewModel
-        if (viewModel.list.isEmpty()) {
-            viewModel.list.addAll(getListIg())
-        }
-
         displayView(0) // call search fragment.
     }
 
@@ -145,22 +139,26 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
                 ?.commit()
         }
 
-        // Update ViewModel with the new data
-        viewModel.list = getListIg()
-    }
-
-    private fun getListIg(): ArrayList<ListIg> {
-        val dataName = resources.getStringArray(R.array.data_name)
-        val dataPhoto = resources.obtainTypedArray(R.array.data_photo)
-        val listIg = ArrayList<ListIg>()
-        for (i in dataName.indices) {
-            val dicogram = ListIg(dataName[i], dataPhoto.getResourceId(i, -1))
-            listIg.add(dicogram)
+        val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            MenuViewModel::class.java)
+        mainViewModel.GithubUser.observe(this){ consumerReviews ->
+            getListUser(consumerReviews as List<ItemsItem>)
         }
-        return listIg
+    }
+
+    private fun getListUser(consumerReviews: List<ItemsItem>){
+        val adapter = ListDemonAdapter(object : ListDemonAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: ItemsItem, position: Int) {
+            }
+        })
+
+        adapter.submitList(consumerReviews)
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+
+        adapter.submitList(consumerReviews)
     }
 }
 
-class MainAppViewModel : ViewModel() {
-    var list: ArrayList<ListIg> = ArrayList()
-}
+
