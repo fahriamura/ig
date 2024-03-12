@@ -13,6 +13,7 @@ import androidx.fragment.app.ListFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
 import com.example.ig.R
 import com.example.ig.SplashyActivity.Companion.activity
 import com.example.ig.databinding.FragmentMenuBinding
