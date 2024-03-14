@@ -10,19 +10,22 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.ig.Database.ItemsItem
 import com.example.ig.databinding.FragmentMenuBinding
 import com.example.ig.ui.MenuViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-class menu : Fragment(){
+class menu : Fragment() {
     private lateinit var binding: FragmentMenuBinding
     private lateinit var mAdapter: ListDemonAdapter
     private lateinit var mContext: Context
     private lateinit var searchView: SearchView
-    val mAllValues : List<ItemsItem?> = ArrayList()
+    private lateinit var viewModel: MenuViewModel
+    val mAllValues: List<ItemsItem?> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,45 +42,47 @@ class menu : Fragment(){
             showLoading(it)
         }
     }
+
     private fun showLoading(isLoading: Boolean) {
         val progressBar = requireView().findViewById<ProgressBar>(R.id.progressBar)
         progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
-        override fun onDetach() {
-            super.onDetach()
-        }
 
-        override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-        ): View? {
-            val layout = inflater.inflate(R.layout.fragment_menu, container, false)
-            val recyclerView: RecyclerView = layout.findViewById(R.id.recyclerView)
-            searchView = layout.findViewById(R.id.searchView)
+    override fun onDetach() {
+        super.onDetach()
+    }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentMenuBinding.inflate(inflater, container, false)
+        val recyclerView: RecyclerView = binding.recyclerView
+        searchView = binding.searchView
+        viewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
+        mAdapter = ListDemonAdapter()
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = mAdapter
+        val itemDecoration = DividerItemDecoration(requireContext(), LinearLayoutManager(requireContext()).orientation)
+        recyclerView.addItemDecoration(itemDecoration)
 
-
-            mAdapter = ListDemonAdapter(object : ListDemonAdapter.OnItemClickCallback {
-                override fun onItemClicked(data: ItemsItem, position: Int) {
-                    // Handle item click
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!query.isNullOrEmpty()) {
+                    showLoading(true)
+                    viewModel.getGithubUser(query)
                 }
-            })
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            recyclerView.adapter = mAdapter
+                return true
+            }
 
 
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText)
+                return true
+            }
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    filterList(newText)
-                    return true
-                }
-
-            })
-            return layout
-        }
+        })
+        return binding.root
+    }
 
     private fun filterList(query: String?) {
         query?.let { q ->
@@ -97,12 +102,9 @@ class menu : Fragment(){
         }
     }
 
-
-        private fun getListUser(user: List<ItemsItem?>?) {
-            val adapter = mAdapter
-            adapter.submitList(user)
-            binding.recyclerView.adapter=mAdapter
-        }
+    private fun getListUser(user: List<ItemsItem?>?) {
+        val adapter = mAdapter
+        adapter.submitList(user)
+        binding.recyclerView.adapter = mAdapter
     }
-
-
+}

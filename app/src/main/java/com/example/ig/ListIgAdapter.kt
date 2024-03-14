@@ -9,20 +9,25 @@ import com.example.ig.databinding.DicogramCardBinding
 import com.example.ig.Database.ItemsItem
 import java.util.Locale
 
-class ListDemonAdapter(private val onItemClickCallback: OnItemClickCallback) : ListAdapter<ItemsItem, ListDemonAdapter.MyViewHolder>(DIFF_CALLBACK) {
-    private var originalList: List<ItemsItem> = listOf()
+class ListDemonAdapter : ListAdapter<ItemsItem, ListDemonAdapter.MyViewHolder>(DIFF_CALLBACK) {
+    private val listUser = ArrayList<ItemsItem>()
+    fun setData(users: ArrayList<ItemsItem>) {
+        listUser.clear()
+        listUser.addAll(users)
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = DicogramCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
-
+    private var onItemClickCallback: OnItemClickCallback? = null
+    fun setOnItemCLickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = getItem(position)
         holder.bind(currentItem)
 
-        holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(currentItem, position)
-        }
     }
 
     inner class MyViewHolder(private val binding: DicogramCardBinding) : RecyclerView.ViewHolder(binding.root) {

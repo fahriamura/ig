@@ -1,5 +1,6 @@
 package com.example.ig.ui
 
+import android.content.ClipData.Item
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,16 +22,17 @@ class MenuViewModel : ViewModel() {
 
     companion object {
         private const val TAG = "MenuViewModel"
+        private const val Search = ""
         private const val USERNAME = "fahriamura"
     }
 
     init {
-        getGithubUser()
+        getGithubUser(Search)
     }
 
-    private fun getGithubUser() {
+    fun getGithubUser(query : String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().findUserByUsername(USERNAME)
+        val client = ApiConfig.getApiService().getSearchUser(query)
         client.enqueue(object : Callback<UserResponse> {
             override fun onResponse(
                 call: Call<UserResponse>,
@@ -49,5 +51,37 @@ class MenuViewModel : ViewModel() {
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
         })
+    }
+
+    fun getGithubDetail(){
+        _isLoading.value = true
+        val client = ApiConfig.getApiService().getUserDetail(USERNAME)
+        client.enqueue(object : Callback<ItemsItem> {
+            override fun onResponse(
+                call: Call<ItemsItem>,
+                response: Response<ItemsItem>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful) {
+                    val userDetails = response.body()
+                    _GithubUser.value = listOf(userDetails)
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ItemsItem>, t: Throwable) {
+                _isLoading.value = false
+                Log.e(TAG, "onFailure: ${t.message.toString()}")
+            }
+        })
+    }
+
+    fun getUsersList(): MutableLiveData<List<ItemsItem?>?> {
+        return _GithubUser
+    }
+
+    fun getUsersInfo(): LiveData<List<ItemsItem?>?> {
+        return GithubUser
     }
 }

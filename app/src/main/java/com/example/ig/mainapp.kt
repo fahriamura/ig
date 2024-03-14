@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,7 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
     private var fragmentManager: FragmentManager? = null
     private lateinit var gestureDetector: GestureDetectorCompat
     private lateinit var recyclerView: RecyclerView
+    private val mainViewModel : MenuViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -67,7 +69,8 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
             velocityX: Float,
             velocityY: Float
         ): Boolean {
-            if (e1 != null && e2 != null && e2.x - e1.x > 0 && velocityX > 0) {
+            val screenWidth = resources.displayMetrics.widthPixels
+            if (e1 != null && e2 != null && e2.x - e1.x > screenWidth / 3 && velocityX > 0) {
                 val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
                 if (!drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.openDrawer(GravityCompat.START)
@@ -76,6 +79,7 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
             }
             return super.onFling(e1, e2, velocityX, velocityY) ?: false
         }
+
     }
 
     override fun onBackPressed() {
@@ -139,26 +143,10 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
                 ?.commit()
         }
 
-        val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            MenuViewModel::class.java)
-        mainViewModel.GithubUser.observe(this){ consumerReviews ->
-            getListUser(consumerReviews as List<ItemsItem>)
-        }
+        mainViewModel.getGithubUser("")
     }
 
-    private fun getListUser(consumerReviews: List<ItemsItem>){
-        val adapter = ListDemonAdapter(object : ListDemonAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: ItemsItem, position: Int) {
-            }
-        })
 
-        adapter.submitList(consumerReviews)
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
-
-        adapter.submitList(consumerReviews)
-    }
 }
 
 
