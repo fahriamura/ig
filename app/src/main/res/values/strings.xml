@@ -5,11 +5,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="splashy_subtitle">10\n</string>
+    <string name="tab_text_1">Follower</string>
+    <string name="tab_text_2">Following</string>
     <string name="logo">20</string>
     <string name="splashy">30</string>
     <string name="background">40</string>
     <string name="show_splashy">10</string>
-    <string name="action_settings">Tittle\n</string>
+    <string name="action_settings">About Me\n</string>
     <string name="navigation_drawer_open">10\n</string>
     <string name="navigation_drawer_close">10</string>
     <string name="Name">10</string>
@@ -25,7 +27,7 @@
         <item>@drawable/kcmc</item>
         <item>@drawable/fw</item>
     </integer-array>
-    <string-array name ="data_name">
+    <string-array name="data_name">
         <item>PockeWindFish</item>
         <item>ryamu</item>
         <item>TheReal Sailent</item>

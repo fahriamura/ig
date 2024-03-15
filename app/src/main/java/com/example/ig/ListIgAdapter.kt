@@ -10,12 +10,6 @@ import com.example.ig.Database.ItemsItem
 import java.util.Locale
 
 class ListDemonAdapter : ListAdapter<ItemsItem, ListDemonAdapter.MyViewHolder>(DIFF_CALLBACK) {
-    private val listUser = ArrayList<ItemsItem>()
-    fun setData(users: ArrayList<ItemsItem>) {
-        listUser.clear()
-        listUser.addAll(users)
-        notifyDataSetChanged()
-    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = DicogramCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
@@ -36,6 +30,9 @@ class ListDemonAdapter : ListAdapter<ItemsItem, ListDemonAdapter.MyViewHolder>(D
             Glide.with(itemView.context)
                 .load(item.avatarUrl)
                 .into(binding.imgListPhoto)
+            binding.root.setOnClickListener {
+                onItemClickCallback?.onItemClicked(item, adapterPosition)
+            }
         }
     }
 

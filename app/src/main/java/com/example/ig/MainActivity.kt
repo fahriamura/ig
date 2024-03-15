@@ -2,7 +2,7 @@ package com.example.ig
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+
 
 
 
@@ -21,8 +21,9 @@ class MainActivity : AppCompatActivity() {
         Splashy(this)
             .setAnimation(Splashy.Animation.GROW_LOGO_FROM_CENTER)
             .setBackgroundColor(R.color.white)
-            .setTitle("Geometry Dash Demon List")
-            .setTitleColor(R.color.white)
+            .setLogo(R.drawable.github)
+            .setTitle("Dicogram")
+            .setTitleColor(R.color.black)
             .setTitleSize(40F)
             .setProgressColor(R.color.white)
             .setFullScreen(true)
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         Splashy.onComplete(object : Splashy.OnComplete {
             override fun onComplete() { val intentToDemon = Intent(this@MainActivity, mainapp::class.java)
                 startActivity(intentToDemon)
-                finish() // Optional: finish the current activity if needed
+                finish()
             }
         })
     }

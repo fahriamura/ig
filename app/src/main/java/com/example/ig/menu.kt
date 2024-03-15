@@ -2,6 +2,7 @@ package com.example.ig
 
 import ListDemonAdapter
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.ProgressBar
@@ -25,7 +26,7 @@ class menu : Fragment() {
     private lateinit var mContext: Context
     private lateinit var searchView: SearchView
     private lateinit var viewModel: MenuViewModel
-    val mAllValues: List<ItemsItem?> = ArrayList()
+    private var mAllValues: List<ItemsItem> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,8 @@ class menu : Fragment() {
             MenuViewModel::class.java
         )
         mainViewModel.GithubUser.observe(this) { consumerReviews ->
-            getListUser(consumerReviews)
+            mAllValues = (consumerReviews ?: emptyList()) as List<ItemsItem>
+            filterList(searchView.query.toString())
         }
         mainViewModel.isLoading.observe(this) {
             showLoading(it)
@@ -60,11 +62,18 @@ class menu : Fragment() {
         searchView = binding.searchView
         viewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
         mAdapter = ListDemonAdapter()
+
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = mAdapter
         val itemDecoration = DividerItemDecoration(requireContext(), LinearLayoutManager(requireContext()).orientation)
         recyclerView.addItemDecoration(itemDecoration)
-
+        mAdapter.setOnItemCLickCallback(object : ListDemonAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: ItemsItem, position: Int) {
+                val intent = Intent(requireContext(), desc::class.java)
+                intent.putExtra("item_data", data.login)
+                startActivity(intent)
+            }
+        })
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
@@ -86,25 +95,11 @@ class menu : Fragment() {
 
     private fun filterList(query: String?) {
         query?.let { q ->
-            val filteredList = ArrayList<ItemsItem>()
-            for (item in mAllValues) {
-                item?.login?.let { name ->
-                    if (name.lowercase(Locale.ROOT).contains(q.lowercase(Locale.ROOT))) {
-                        filteredList.add(item)
-                    }
-                }
+            val filteredList = mAllValues.filter { item ->
+                item.login?.contains(q, ignoreCase = true) ?: false
             }
-            if (filteredList.isEmpty()) {
-                Toast.makeText(requireContext(), "No Data found", Toast.LENGTH_SHORT).show()
-            } else {
-                mAdapter.submitList(filteredList)
-            }
+            mAdapter.submitList(filteredList)
+            showLoading(false)
         }
-    }
-
-    private fun getListUser(user: List<ItemsItem?>?) {
-        val adapter = mAdapter
-        adapter.submitList(user)
-        binding.recyclerView.adapter = mAdapter
     }
 }

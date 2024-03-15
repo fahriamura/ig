@@ -50,5 +50,14 @@ data class ItemsItem(
 	val url: String? = null,
 
 	@field:SerializedName("node_id")
-	val nodeId: String? = null
+	val nodeId: String? = null,
+
+	@field:SerializedName("name")
+	val name: String? = null,
+
+	@field:SerializedName("followers")
+	val followers: String? = null,
+
+	@field:SerializedName("following")
+	val following: String? = null
 )

@@ -1,38 +1,32 @@
 package com.example.ig
 
-import ListDemonAdapter
+
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.snapshots.Snapshot.Companion.observe
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.ig.Database.ItemsItem
 import com.example.ig.ui.MenuViewModel
 
 class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var fragment: Fragment? = null
     private var fragmentManager: FragmentManager? = null
     private lateinit var gestureDetector: GestureDetectorCompat
-    private lateinit var recyclerView: RecyclerView
     private val mainViewModel : MenuViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +34,6 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
 
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-
         val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val toggle = ActionBarDrawerToggle(
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -50,14 +43,15 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
         toolbar.navigationIcon = null
 
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
+        val headerView = navigationView.getHeaderView(0)
+        val imageView = headerView.findViewById<ImageView>(R.id.ImageView)
         navigationView.setNavigationItemSelectedListener(this)
-
+        imageView.setImageResource(R.drawable.ayano4)
         gestureDetector = GestureDetectorCompat(this, MyGestureListener())
-        displayView(0) // call search fragment.
+        displayView(3)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        // Pass touch events to GestureDetector
         gestureDetector.onTouchEvent(event)
         return super.onTouchEvent(event)
     }
@@ -92,7 +86,6 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         return true
     }
 
@@ -106,11 +99,14 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
                 return true
             }
             R.id.action_settings -> {
+                val intent = Intent(this, aboutme::class.java)
+                startActivity(intent)
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
         }
     }
+
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
@@ -123,7 +119,7 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
         } else if (id == R.id.nav_share) {
         } else if (id == R.id.nav_send) {
         }
-        displayView(0) // call search fragment.
+        displayView(3)
         val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
@@ -133,7 +129,7 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
         fragment = null
         val fragmentTags = ""
         when (position) {
-            0 -> fragment = menu()
+            3 -> fragment = menu()
             else -> {
             }
         }
@@ -143,7 +139,7 @@ class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedList
                 ?.commit()
         }
 
-        mainViewModel.getGithubUser("")
+        mainViewModel.getGithubUser("query_pencarian")
     }
 
 

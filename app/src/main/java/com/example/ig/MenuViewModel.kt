@@ -1,6 +1,5 @@
 package com.example.ig.ui
 
-import android.content.ClipData.Item
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,10 +14,17 @@ import retrofit2.Response
 class MenuViewModel : ViewModel() {
 
     private val _GithubUser = MutableLiveData<List<ItemsItem?>?>()
-    val GithubUser : LiveData<List<ItemsItem?>?> = _GithubUser
+    val GithubUser: LiveData<List<ItemsItem?>?> = _GithubUser
+
+    private val _Follower = MutableLiveData<List<ItemsItem?>?>()
+    val Follower: LiveData<List<ItemsItem?>?> = _Follower
+
+    private val _Following = MutableLiveData<List<ItemsItem?>?>()
+    val Following: LiveData<List<ItemsItem?>?> = _Following
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+
 
     companion object {
         private const val TAG = "MenuViewModel"
@@ -30,7 +36,7 @@ class MenuViewModel : ViewModel() {
         getGithubUser(Search)
     }
 
-    fun getGithubUser(query : String) {
+    fun getGithubUser(query: String) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getSearchUser(query)
         client.enqueue(object : Callback<UserResponse> {
@@ -53,9 +59,9 @@ class MenuViewModel : ViewModel() {
         })
     }
 
-    fun getGithubDetail(){
+    fun getGithubDetail(username: String) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getUserDetail(USERNAME)
+        val client = ApiConfig.getApiService().getUserDetail(username)
         client.enqueue(object : Callback<ItemsItem> {
             override fun onResponse(
                 call: Call<ItemsItem>,
@@ -77,11 +83,51 @@ class MenuViewModel : ViewModel() {
         })
     }
 
-    fun getUsersList(): MutableLiveData<List<ItemsItem?>?> {
-        return _GithubUser
+    fun getGithubFollowers(username: String) {
+        _isLoading.value = true
+        val client = ApiConfig.getApiService().getUserFollowers(username)
+        client.enqueue(object : Callback<ArrayList<ItemsItem>> {
+            override fun onResponse(
+                call: Call<ArrayList<ItemsItem>>,
+                response: Response<ArrayList<ItemsItem>>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful) {
+                    _Follower.value = response.body()
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ArrayList<ItemsItem>>, t: Throwable) {
+                _isLoading.value = false
+                Log.e(TAG, "onFailure: ${t.message.toString()}")
+            }
+        })
     }
 
-    fun getUsersInfo(): LiveData<List<ItemsItem?>?> {
-        return GithubUser
+    fun getGithubFollowing(username: String) {
+        _isLoading.value = true
+        val client = ApiConfig.getApiService().getUserFollowing(username)
+        client.enqueue(object : Callback<ArrayList<ItemsItem>> {
+            override fun onResponse(
+                call: Call<ArrayList<ItemsItem>>,
+                response: Response<ArrayList<ItemsItem>>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful) {
+                    _Following.value = response.body()
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ArrayList<ItemsItem>>, t: Throwable) {
+                _isLoading.value = false
+                Log.e(TAG, "onFailure: ${t.message.toString()}")
+            }
+        })
     }
+
+
 }
