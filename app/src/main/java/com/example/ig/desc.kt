@@ -10,7 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.ig.ui.MenuViewModel
+import com.example.ig.Adapter.SectionsPagerAdapter
+import com.example.ig.ViewModel.MenuViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

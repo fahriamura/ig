@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.ig.Helper.FancyAboutPage
+
 class aboutme: AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

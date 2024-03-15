@@ -2,7 +2,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.ProgressBar
-import androidx.compose.runtime.snapshots.Snapshot.Companion.observe
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -11,9 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ig.Database.ItemsItem
 import com.example.ig.R
 import com.example.ig.databinding.FragmentFollowerBinding
-import com.example.ig.databinding.FragmentMenuBinding
 import com.example.ig.desc
-import com.example.ig.ui.MenuViewModel
+import com.example.ig.ViewModel.MenuViewModel
 
 class follower : Fragment() {
     private lateinit var binding: FragmentFollowerBinding

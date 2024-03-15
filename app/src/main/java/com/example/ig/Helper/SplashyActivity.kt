@@ -1,4 +1,4 @@
-package com.example.ig
+package com.example.ig.Helper
 
 import android.content.pm.ApplicationInfo
 import android.graphics.Color
@@ -14,7 +14,7 @@ import android.view.animation.*
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.ig.Splashy
+import com.example.ig.R
 import com.example.ig.databinding.ActivitySplashyBinding
 
 internal class SplashyActivity : AppCompatActivity() {
@@ -248,7 +248,9 @@ internal class SplashyActivity : AppCompatActivity() {
             )
         }
         if (intent.hasExtra(SUBTITLE_COLOR_VALUE)) {
-            binding.tvSubTitle.setTextColor(Color.parseColor(intent.getStringExtra(SUBTITLE_COLOR_VALUE)))
+            binding.tvSubTitle.setTextColor(Color.parseColor(intent.getStringExtra(
+                SUBTITLE_COLOR_VALUE
+            )))
         }
         if (intent.hasExtra(SUBTITLE_ITALIC)) {
             if (!intent.getBooleanExtra(SUBTITLE_ITALIC, true)) binding.tvSubTitle.setTypeface(
@@ -354,8 +356,12 @@ internal class SplashyActivity : AppCompatActivity() {
                 Splashy.Animation.SLIDE_IN_TOP_BOTTOM -> {
                     binding.pbLoad.visibility = View.GONE
 
-                    binding.ivLogo.animation = AnimationUtils.loadAnimation(this, R.anim.slide_from_top)
-                    binding.tvTitle.animation = AnimationUtils.loadAnimation(this, R.anim.slide_from_bottom)
+                    binding.ivLogo.animation = AnimationUtils.loadAnimation(this,
+                        R.anim.slide_from_top
+                    )
+                    binding.tvTitle.animation = AnimationUtils.loadAnimation(this,
+                        R.anim.slide_from_bottom
+                    )
                     binding.tvSubTitle.animation =
                         AnimationUtils.loadAnimation(this, R.anim.slide_from_bottom)
 
@@ -377,8 +383,12 @@ internal class SplashyActivity : AppCompatActivity() {
                 Splashy.Animation.SLIDE_IN_LEFT_BOTTOM -> {
                     binding.pbLoad.visibility = View.GONE
 
-                    binding.ivLogo.animation = AnimationUtils.loadAnimation(this, R.anim.slide_from_left)
-                    binding.tvTitle.animation = AnimationUtils.loadAnimation(this, R.anim.slide_from_bottom)
+                    binding.ivLogo.animation = AnimationUtils.loadAnimation(this,
+                        R.anim.slide_from_left
+                    )
+                    binding.tvTitle.animation = AnimationUtils.loadAnimation(this,
+                        R.anim.slide_from_bottom
+                    )
                     binding.tvSubTitle.animation =
                         AnimationUtils.loadAnimation(this, R.anim.slide_from_bottom)
 
@@ -401,8 +411,12 @@ internal class SplashyActivity : AppCompatActivity() {
                 Splashy.Animation.SLIDE_IN_LEFT_RIGHT -> {
                     binding.pbLoad.visibility = View.GONE
 
-                    binding.ivLogo.animation = AnimationUtils.loadAnimation(this, R.anim.slide_from_left)
-                    binding.tvTitle.animation = AnimationUtils.loadAnimation(this, R.anim.slide_from_right)
+                    binding.ivLogo.animation = AnimationUtils.loadAnimation(this,
+                        R.anim.slide_from_left
+                    )
+                    binding.tvTitle.animation = AnimationUtils.loadAnimation(this,
+                        R.anim.slide_from_right
+                    )
                     binding.tvSubTitle.animation =
                         AnimationUtils.loadAnimation(this, R.anim.slide_from_right)
 
@@ -427,7 +441,9 @@ internal class SplashyActivity : AppCompatActivity() {
                     binding.tvTitle.visibility = View.INVISIBLE
                     binding.tvSubTitle.visibility = View.INVISIBLE
 
-                    binding.ivLogo.animation = AnimationUtils.loadAnimation(this, R.anim.slide_from_left)
+                    binding.ivLogo.animation = AnimationUtils.loadAnimation(this,
+                        R.anim.slide_from_left
+                    )
 
                     binding.ivLogo.animation.duration = duration
 

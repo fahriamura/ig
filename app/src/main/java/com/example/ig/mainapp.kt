@@ -3,13 +3,11 @@ package com.example.ig
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.GestureDetector
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
@@ -21,7 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.example.ig.ui.MenuViewModel
+import com.example.ig.ViewModel.MenuViewModel
 
 class mainapp : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var fragment: Fragment? = null

@@ -1,4 +1,4 @@
-package com.example.ig
+package com.example.ig.Adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

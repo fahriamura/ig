@@ -1,5 +1,6 @@
-package com.example.ig.ui
+package com.example.ig.ViewModel
 
+import android.provider.ContactsContract
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.example.ig.Database.ApiConfig
 import com.example.ig.Database.ItemsItem
 import com.example.ig.Database.UserResponse
+import com.example.ig.Repository.FavRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,6 +26,7 @@ class MenuViewModel : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+
 
 
     companion object {

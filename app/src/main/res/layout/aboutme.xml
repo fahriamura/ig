@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF">
 
-            <com.example.ig.FancyAboutPage
+            <com.example.ig.Helper.FancyAboutPage
                 android:id="@+id/fancyaboutpage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -31,7 +31,7 @@
                     app:civ_border_color="#40FFFFFF"
                     app:civ_border_width="10dp" />
 
-            </com.example.ig.FancyAboutPage>
+            </com.example.ig.Helper.FancyAboutPage>
 
         </RelativeLayout>
     </ScrollView>

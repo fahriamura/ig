@@ -1,4 +1,4 @@
-package com.example.ig
+package com.example.ig.Helper
 
 
 import android.content.Context
@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.example.ig.R
 import com.intrusoft.squint.DiagonalView
 
 class FancyAboutPage : RelativeLayout {
