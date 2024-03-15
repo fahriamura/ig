@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id("kotlin-parcelize")
+    id 'kotlin-kapt'
 
 }
 android {
@@ -78,4 +79,8 @@ dependencies {
     implementation 'com.mikhaellopez:circularimageview:3.0.2'
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
     implementation 'com.github.IntruderShanky:Squint:3.0.1'
+    androidTestImplementation("androidx.room:room-testing:2.6.1")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
 }
