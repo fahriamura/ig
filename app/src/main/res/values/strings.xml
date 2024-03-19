@@ -15,6 +15,9 @@
     <string name="navigation_drawer_open">10\n</string>
     <string name="navigation_drawer_close">10</string>
     <string name="Name">10</string>
+    <string name="added">Data Added\n</string>
+    <string name="error">Data Currently Available</string>
+    <string name="removed">Unfavourited</string>
     <integer-array name="data_photo">
         <item>@drawable/avernus</item>
         <item>@drawable/acheron</item>

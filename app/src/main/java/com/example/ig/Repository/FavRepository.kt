@@ -19,17 +19,21 @@ class FavRepository(application: Application) {
         mFavDao = db.favDao()
     }
 
-    fun getAllFav(): LiveData<List<ContactsContract.CommonDataKinds.Note>> = mFavDao.getAllFav()
+    fun getAllFav(): LiveData<List<Fav>> = mFavDao.getAllFav()
 
-    fun insert(note: ContactsContract.CommonDataKinds.Note) {
-        executorService.execute { mFavDao.insert(note) }
+    fun insert(fav: Fav) {
+        executorService.execute { mFavDao.insert(fav) }
     }
 
-    fun delete(note: ContactsContract.CommonDataKinds.Note) {
-        executorService.execute { mFavDao.delete(note) }
+    fun delete(fav: Fav) {
+        executorService.execute { mFavDao.delete(fav) }
     }
 
-    fun update(note: ContactsContract.CommonDataKinds.Note) {
-        executorService.execute { mFavDao.update(note) }
+    fun update(fav: Fav) {
+        executorService.execute { mFavDao.update(fav) }
+    }
+
+    fun isFavorited(username: String): Boolean {
+        return mFavDao.getFavByUsername(username) != null
     }
 }

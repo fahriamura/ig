@@ -1,21 +1,22 @@
 package com.example.ig.db
 
-import android.provider.ContactsContract
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import retrofit2.http.Query
 
 @Dao
 interface FavDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(note: ContactsContract.CommonDataKinds.Note)
+    fun insert(fav: Fav)
 
     @Update
-    fun update(note: ContactsContract.CommonDataKinds.Note)
+    fun update(fav: Fav)
 
     @Delete
-    fun delete(note: ContactsContract.CommonDataKinds.Note)
+    fun delete(fav: Fav)
 
-    @Query("SELECT * from note ORDER BY id ASC")
-    fun getAllFav(): LiveData<List<ContactsContract.CommonDataKinds.Note>>
+    @Query("SELECT * from FavData ORDER BY id ASC")
+    fun getAllFav(): LiveData<List<Fav>>
+
+    @Query("SELECT * FROM FavData WHERE username = :username LIMIT 1")
+    fun getFavByUsername(username: String): Fav?
 }
