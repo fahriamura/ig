@@ -15,7 +15,6 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-        buildConfigField("String", "API_KEY", '"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"')
         buildConfigField("String", "BASE_URL", '"https://api.github.com/"')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -32,12 +31,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "API_KEY", '"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"')
-            buildConfigField("String", "BASE_URL", '"https://api.github.com/"')
+
         }
         debug{
-            buildConfigField("String", "API_KEY", '"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"')
-            buildConfigField("String", "BASE_URL", '"https://api.github.com/"')
+
         }
     }
     compileOptions {
