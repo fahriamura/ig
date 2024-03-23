@@ -1,14 +1,13 @@
 import android.view.LayoutInflater
-import android.view.ViewDebug.IntToString
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.ig.databinding.DicogramCardBinding
 import com.example.ig.Database.ItemsItem
-import java.util.Locale
+import com.example.ig.databinding.DicogramCardBinding
 
+@Suppress("DEPRECATION")
 class ListDemonAdapter : ListAdapter<ItemsItem, ListDemonAdapter.MyViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = DicogramCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)

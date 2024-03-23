@@ -5,7 +5,7 @@ import androidx.room.*
 
 @Dao
 interface FavDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(fav: Fav)
 
     @Update
@@ -14,9 +14,9 @@ interface FavDao {
     @Delete
     fun delete(fav: Fav)
 
-    @Query("SELECT * from FavData ORDER BY id ASC")
+    @Query("SELECT * from FavData")
     fun getAllFav(): LiveData<List<Fav>>
+    @Query("SELECT * FROM FavData WHERE username = :username")
+    fun getFavoriteUserByUsername(username: String): LiveData<List<Fav>>
 
-    @Query("SELECT * FROM FavData WHERE username = :username LIMIT 1")
-    fun getFavByUsername(username: String): Fav?
 }

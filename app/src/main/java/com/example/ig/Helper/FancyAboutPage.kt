@@ -1,6 +1,7 @@
 package com.example.ig.Helper
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -27,9 +28,7 @@ class FancyAboutPage : RelativeLayout {
     private lateinit var tw: ImageView
     private lateinit var lin: ImageView
     private lateinit var git: ImageView
-    private var emailurl: String? = null
     private var fburl: String? = null
-    private var twitterurl: String? = null
     private var linkedinurl: String? = null
     private var githuburl: String? = null
 
@@ -69,10 +68,6 @@ class FancyAboutPage : RelativeLayout {
         l2.text = description
     }
 
-    fun setCoverTintColor(color: Int) {
-        diagonalView.setTintColor(color)
-    }
-
     fun setCover(drawable: Int) {
         diagonalView.setImageResource(drawable)
     }
@@ -91,18 +86,6 @@ class FancyAboutPage : RelativeLayout {
                 fburl = "http://$fburl"
             }
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(fburl))
-            context.startActivity(browserIntent)
-        }
-    }
-
-    fun addTwitterLink(twitterAddress: String) {
-        tw.visibility = View.VISIBLE
-        twitterurl = twitterAddress
-        tw.setOnClickListener {
-            if (twitterurl?.let { !it.startsWith("http://") && !it.startsWith("https://") } == true){
-                twitterurl = "http://$twitterurl"
-            }
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(twitterurl))
             context.startActivity(browserIntent)
         }
     }
@@ -139,6 +122,7 @@ class FancyAboutPage : RelativeLayout {
         l3.text = appName
     }
 
+    @SuppressLint("SetTextI18n")
     fun setVersionNameAsAppSubTitle(appVersion: String) {
         l4.text = "Version $appVersion"
     }

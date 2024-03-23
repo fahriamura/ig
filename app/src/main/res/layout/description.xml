@@ -54,6 +54,7 @@
                 android:textAlignment="center"
                 app:layout_constraintBottom_toTopOf="@+id/text_follower"
                 app:layout_constraintEnd_toEndOf="@+id/text_follower"
+                app:layout_constraintHorizontal_bias="0.642"
                 app:layout_constraintStart_toStartOf="@+id/text_follower" />
 
             <TextView
@@ -106,11 +107,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/card_view"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="#E6E6EA"
+        android:contentDescription="Navigasi tab"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tabTextColor="@android:color/white" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_view"
+        app:tabTextColor="@color/black" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"

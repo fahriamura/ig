@@ -1,12 +1,10 @@
 package com.example.ig.Repository
 
 import android.app.Application
-import android.provider.ContactsContract
 import androidx.lifecycle.LiveData
 import com.example.ig.db.Fav
 import com.example.ig.db.FavDao
 import com.example.ig.db.FavRoomDatabase
-
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -28,12 +26,5 @@ class FavRepository(application: Application) {
     fun delete(fav: Fav) {
         executorService.execute { mFavDao.delete(fav) }
     }
-
-    fun update(fav: Fav) {
-        executorService.execute { mFavDao.update(fav) }
-    }
-
-    fun isFavorited(username: String): Boolean {
-        return mFavDao.getFavByUsername(username) != null
-    }
+    fun getFavoriteUserByUsername(username: String): LiveData<List<Fav>> = mFavDao.getFavoriteUserByUsername(username)
 }

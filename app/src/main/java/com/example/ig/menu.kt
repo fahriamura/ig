@@ -4,18 +4,19 @@ import ListDemonAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.ig.Database.ItemsItem
-import com.example.ig.databinding.FragmentMenuBinding
 import com.example.ig.ViewModel.MenuViewModel
-import kotlin.collections.ArrayList
+import com.example.ig.databinding.FragmentMenuBinding
 
 class menu : Fragment() {
     private lateinit var binding: FragmentMenuBinding
@@ -30,9 +31,7 @@ class menu : Fragment() {
         mContext = requireActivity()
 
         setHasOptionsMenu(true)
-        val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            MenuViewModel::class.java
-        )
+        val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MenuViewModel::class.java]
         mainViewModel.GithubUser.observe(this) { consumerReviews ->
             mAllValues = (consumerReviews ?: emptyList()) as List<ItemsItem>
             filterList(searchView.query.toString())
@@ -47,17 +46,13 @@ class menu : Fragment() {
         progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    override fun onDetach() {
-        super.onDetach()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMenuBinding.inflate(inflater, container, false)
         val recyclerView: RecyclerView = binding.recyclerView
         searchView = binding.searchView
-        viewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MenuViewModel::class.java]
         mAdapter = ListDemonAdapter()
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -68,6 +63,7 @@ class menu : Fragment() {
             override fun onItemClicked(data: ItemsItem, position: Int) {
                 val intent = Intent(requireContext(), desc::class.java)
                 intent.putExtra("item_data", data.login)
+                intent.putExtra("avatar",data.avatarUrl)
                 startActivity(intent)
             }
         })

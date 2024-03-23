@@ -1,6 +1,11 @@
+package com.example.ig
+
+import ListDemonAdapter
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -8,10 +13,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ig.Database.ItemsItem
-import com.example.ig.R
-import com.example.ig.databinding.FragmentFollowerBinding
-import com.example.ig.desc
 import com.example.ig.ViewModel.MenuViewModel
+import com.example.ig.databinding.FragmentFollowerBinding
 
 class follower : Fragment() {
     private lateinit var binding: FragmentFollowerBinding
@@ -35,13 +38,13 @@ class follower : Fragment() {
             username = it.getString("username") ?: ""
         }
         setHasOptionsMenu(false)
-        viewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MenuViewModel::class.java]
         observeViewModel()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFollowerBinding.inflate(inflater, container, false)
         val recyclerView: RecyclerView = binding.rv1
         mAdapter = ListDemonAdapter()
@@ -55,6 +58,7 @@ class follower : Fragment() {
             override fun onItemClicked(data: ItemsItem, position: Int) {
                 val intent = Intent(requireContext(), desc::class.java)
                 intent.putExtra("item_data", data.login)
+                intent.putExtra("avatar",data.avatarUrl)
                 startActivity(intent)
             }
         })

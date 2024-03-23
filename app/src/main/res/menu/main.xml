@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
+
+         <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_camera"
+                android:title="Fav List" />
+            <item
+                android:id="@+id/theme"
+                android:title="Change Theme"/>
+            <item
+                android:id="@+id/aboutme"
+                android:title="About Me"/>
+
+
+
+        </group>
 </menu>

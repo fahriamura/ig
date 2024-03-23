@@ -21,4 +21,5 @@
     <style name="SearchBarTheme">
         <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariant</item>
     </style>
+    <style name="Theme.Dicoding" parent="Theme.AppCompat.DayNight.DarkActionBar"/>
 </resources>
